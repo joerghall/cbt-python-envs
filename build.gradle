@@ -1,0 +1,68 @@
+plugins {
+    id 'idea'
+    id 'groovy'
+    id 'com.gradle.plugin-publish' version '0.9.7'
+    id 'com.palantir.git-version' version '0.8.0'
+    id 'maven'
+}
+
+apply plugin: 'java-gradle-plugin'
+
+project.version = gitVersion()
+project.group = 'com.h1grid.cbt.python'
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+repositories {
+    jcenter()
+}
+
+uploadArchives {
+    repositories {
+        maven {
+            url uri('../mvn_repo')
+        }
+    }
+}
+
+dependencies {
+    compile gradleApi()
+    testCompile gradleTestKit()
+    testCompile 'junit:junit:4.12'
+    testCompile('org.spockframework:spock-core:1.1-groovy-2.4') {
+        exclude group: 'org.codehaus.groovy'
+    }
+}
+
+// https://github.com/jonathanhood/gradle-plugin-example/blob/master/tutorial/2-your-first-plugin-test.md
+// Write the plugin's classpath to a file to share with the tests
+task createClasspathManifest {
+    def outputDir = file("$buildDir/$name")
+
+    inputs.files sourceSets.main.runtimeClasspath
+    outputs.dir outputDir
+
+    doLast {
+        outputDir.mkdirs()
+        file("$outputDir/plugin-classpath.txt").text = sourceSets.main.runtimeClasspath.join("\n")
+    }
+}
+
+// Add the classpath file to the test runtime classpath
+dependencies {
+    testRuntime files(createClasspathManifest)
+}
+
+pluginBundle {
+    website = 'https://github.com/joerghall/cbt-python-envs'
+    vcsUrl = 'https://github.com/joerghall/cbt-python-envs'
+    description = 'Gradle plugin to install different Python environments'
+    tags = ['python', 'cbt']
+    plugins {
+        pythonEnvsPlugin {
+            id = 'com.h1grid.cbt.python.envs'
+            displayName = 'Gradle Python Envs plugin'
+        }
+    }
+}
