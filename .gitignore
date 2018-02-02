@@ -1,5 +1,7 @@
 .idea
 .gradle
+.DS_Store
+*.tgz
 /build/
 out
 # Ignore Gradle GUI config
