@@ -18,4 +18,4 @@ cache:
   - $HOME/.gradle
 
 script:
-  - ./gradlew clean build -i --continue
+  - ./gradlew clean build publishPlugins -i --continue
