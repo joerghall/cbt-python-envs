@@ -19,4 +19,4 @@ cache:
   - $HOME/.gradle
 
 script:
-  - ./gradlew clean build publishPlugins -i --continue
+  - ./gradlew clean build publishPlugins  -Pgradle.publish.key=${gradle.publish.key} -Pgradle.publish.secret=${gradle.publish.secret} -i --continue

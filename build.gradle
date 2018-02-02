@@ -57,7 +57,7 @@ dependencies {
 pluginBundle {
     website = 'https://github.com/joerghall/cbt-python-envs'
     vcsUrl = 'https://github.com/joerghall/cbt-python-envs'
-    description = 'Gradle plugin to install different Python environments'
+    description = 'Gradle plugin to install different Python environments provided through cbt'
     tags = ['python', 'cbt']
     plugins {
         pythonEnvsPlugin {
